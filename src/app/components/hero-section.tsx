@@ -2,117 +2,239 @@ import { motion } from 'motion/react';
 import { ArrowRight, Globe, TrendingUp, Users } from 'lucide-react';
 
 export function HeroSection() {
-  const floatingCards = [
-    { icon: Globe, text: '150+ Countries', color: 'from-purple-500 to-blue-500', delay: 0 },
-    { icon: Users, text: '10K+ Companies', color: 'from-blue-500 to-cyan-500', delay: 0.2 },
-    { icon: TrendingUp, text: '$2B+ Trade Volume', color: 'from-cyan-500 to-green-500', delay: 0.4 },
+  const stats = [
+    { icon: Globe,      value: '150+',  label: 'Countries',    color: '#15803D' },
+    { icon: Users,      value: '10K+',  label: 'Companies',    color: '#16A34A' },
+    { icon: TrendingUp, value: '$2B+',  label: 'Trade Volume', color: '#22C55E' },
   ];
 
   return (
-    <div className="relative pt-32 pb-20 px-6 overflow-hidden">
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-blue-500/5 to-cyan-500/10" />
-      
-      {/* Animated Gradient Orbs */}
-      <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
+    <div
+      style={{
+        position: 'relative',
+        paddingTop: 100,
+        paddingBottom: 64,
+        paddingLeft: 24,
+        paddingRight: 24,
+        overflow: 'hidden',
+        background: 'var(--background)',
+      }}
+    >
+      {/* Subtle green tint background */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'radial-gradient(ellipse 80% 60% at 50% -20%, rgba(21,128,61,0.08) 0%, transparent 70%)',
+          pointerEvents: 'none',
         }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-        className="absolute top-20 -left-40 w-80 h-80 bg-purple-500 rounded-full blur-[120px]"
-      />
-      <motion.div
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: 1,
-        }}
-        className="absolute top-40 -right-40 w-96 h-96 bg-cyan-500 rounded-full blur-[120px]"
       />
 
-      <div className="relative max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            className="inline-block mb-6"
-          >
-            <span className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/30 text-sm backdrop-blur-sm">
-              🌍 Global Trade Made Simple
-            </span>
-          </motion.div>
+      {/* Decorative green blobs */}
+      <motion.div
+        animate={{ scale: [1, 1.15, 1], opacity: [0.12, 0.18, 0.12] }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          position: 'absolute',
+          top: -80,
+          left: -120,
+          width: 400,
+          height: 400,
+          borderRadius: '50%',
+          background: '#15803D',
+          filter: 'blur(100px)',
+          pointerEvents: 'none',
+        }}
+      />
+      <motion.div
+        animate={{ scale: [1, 1.2, 1], opacity: [0.08, 0.14, 0.08] }}
+        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+        style={{
+          position: 'absolute',
+          top: 60,
+          right: -100,
+          width: 350,
+          height: 350,
+          borderRadius: '50%',
+          background: '#22C55E',
+          filter: 'blur(100px)',
+          pointerEvents: 'none',
+        }}
+      />
 
-          <motion.h1
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+      <div
+        style={{ position: 'relative', maxWidth: 1200, margin: '0 auto' }}
+      >
+        {/* Tag */}
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}
+        >
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 7,
+              padding: '6px 16px',
+              borderRadius: 999,
+              background: 'var(--primary-light)',
+              border: '1px solid var(--primary-muted)',
+              fontSize: 13,
+              fontWeight: 600,
+              color: 'var(--primary-dark)',
+            }}
           >
-            Discover Global{' '}
-            <span className="gradient-text">Exporters</span>
-            <br />& Markets
-          </motion.h1>
+            <span
+              style={{
+                width: 7,
+                height: 7,
+                borderRadius: '50%',
+                background: 'var(--primary)',
+                display: 'inline-block',
+              }}
+            />
+            Global Trade Made Simple
+          </span>
+        </motion.div>
 
-          <motion.p
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl text-gray-400 mb-10 max-w-2xl mx-auto"
-          >
-            Connect with verified exporters worldwide. Explore opportunities, build partnerships, and grow your business in the global marketplace.
-          </motion.p>
+        {/* Headline */}
+        <motion.h1
+          initial={{ y: 24, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.55, delay: 0.1 }}
+          style={{
+            textAlign: 'center',
+            fontSize: 'clamp(2.25rem, 5vw, 3.75rem)',
+            fontWeight: 800,
+            lineHeight: 1.2,
+            letterSpacing: '-0.03em',
+            color: 'var(--foreground)',
+            marginBottom: 20,
+          }}
+        >
+          Discover Global{' '}
+          <span className="gradient-text">Exporters</span>
+          <br />& Markets
+        </motion.h1>
 
+        {/* Subtitle */}
+        <motion.p
+          initial={{ y: 24, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.55, delay: 0.18 }}
+          style={{
+            textAlign: 'center',
+            fontSize: 18,
+            color: 'var(--muted-foreground)',
+            lineHeight: 1.7,
+            maxWidth: 560,
+            margin: '0 auto 36px',
+          }}
+        >
+          Connect with verified exporters worldwide. Explore opportunities, build
+          partnerships, and grow your business in the global marketplace.
+        </motion.p>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ y: 24, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.55, delay: 0.26 }}
+          style={{ display: 'flex', justifyContent: 'center', marginBottom: 60 }}
+        >
           <motion.button
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
             onClick={() => {
               document.getElementById('companies-section')?.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 
-                     hover:shadow-[0_0_40px_rgba(127,90,240,0.6)] transition-all duration-300 relative overflow-hidden group"
+            className="btn-primary"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 10,
+              padding: '14px 28px',
+              fontSize: 16,
+              borderRadius: 12,
+            }}
           >
-            <span className="relative z-10 flex items-center gap-3 text-lg font-semibold">
-              Explore Companies
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            Explore Companies
+            <ArrowRight style={{ width: 18, height: 18 }} />
           </motion.button>
-        </div>
+        </motion.div>
 
-        {/* Floating Stats Cards */}
-        <div className="flex flex-wrap justify-center gap-6">
-          {floatingCards.map((card, index) => (
+        {/* Stats */}
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 16,
+          }}
+        >
+          {stats.map(({ icon: Icon, value, label, color }, i) => (
             <motion.div
-              key={index}
-              initial={{ y: 50, opacity: 0 }}
+              key={i}
+              initial={{ y: 32, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.4 + card.delay }}
-              whileHover={{ y: -5, scale: 1.05 }}
-              className="glass-card rounded-2xl p-6 min-w-[200px] relative overflow-hidden group cursor-pointer"
+              transition={{ duration: 0.45, delay: 0.32 + i * 0.08 }}
+              whileHover={{ y: -4 }}
+              className="glass-card"
+              style={{
+                borderRadius: 14,
+                padding: '20px 28px',
+                minWidth: 180,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 16,
+                cursor: 'default',
+                transition: 'box-shadow 0.2s, border-color 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--primary-muted)';
+                (e.currentTarget as HTMLDivElement).style.boxShadow =
+                  '0 6px 20px rgba(21,128,61,0.10)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLDivElement).style.borderColor = 'var(--border)';
+                (e.currentTarget as HTMLDivElement).style.boxShadow =
+                  '0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04)';
+              }}
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${card.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
-              <div className="relative flex items-center gap-4">
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center`}>
-                  <card.icon className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{card.text.split(' ')[0]}</p>
-                  <p className="text-sm text-gray-400">{card.text.split(' ').slice(1).join(' ')}</p>
-                </div>
+              {/* Icon circle */}
+              <div
+                style={{
+                  width: 44,
+                  height: 44,
+                  borderRadius: 11,
+                  background: color + '18',
+                  border: `1px solid ${color}30`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                <Icon style={{ width: 22, height: 22, color }} />
+              </div>
+              <div>
+                <p
+                  style={{
+                    fontSize: 22,
+                    fontWeight: 800,
+                    color: 'var(--foreground)',
+                    lineHeight: 1,
+                    marginBottom: 2,
+                  }}
+                >
+                  {value}
+                </p>
+                <p style={{ fontSize: 13, color: 'var(--muted-foreground)', margin: 0 }}>
+                  {label}
+                </p>
               </div>
             </motion.div>
           ))}

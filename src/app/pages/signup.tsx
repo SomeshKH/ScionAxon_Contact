@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Mail, Lock, User, Building, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, User, Building, ArrowLeft, Leaf } from 'lucide-react';
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
 
@@ -15,217 +15,228 @@ export function Signup() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock signup - in real app, this would create account
     console.log('Signup attempt:', formData);
     navigate('/');
   };
 
-  const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+  const handleChange = (field: string, value: string) =>
+    setFormData((prev) => ({ ...prev, [field]: value }));
+
+  const fieldInput: React.CSSProperties = {
+    width: '100%',
+    paddingLeft: 40,
+    paddingRight: 14,
+    paddingTop: 11,
+    paddingBottom: 11,
+  };
+
+  const iconStyle: React.CSSProperties = {
+    position: 'absolute',
+    left: 12,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    width: 16,
+    height: 16,
+    color: 'var(--muted-foreground)',
+    pointerEvents: 'none',
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6 py-12 relative overflow-hidden">
-      {/* Animated Background */}
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '32px 24px',
+        position: 'relative',
+        overflow: 'hidden',
+        background: 'var(--background)',
+      }}
+    >
+      {/* Decorative blobs */}
       <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
+        animate={{ scale: [1, 1.15, 1], opacity: [0.10, 0.16, 0.10] }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+        style={{
+          position: 'absolute', top: -100, left: -120,
+          width: 380, height: 380, borderRadius: '50%',
+          background: '#15803D', filter: 'blur(100px)', pointerEvents: 'none',
         }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-        className="absolute top-0 -left-40 w-96 h-96 bg-purple-500 rounded-full blur-[120px]"
       />
       <motion.div
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.3, 0.5, 0.3],
+        animate={{ scale: [1, 1.2, 1], opacity: [0.06, 0.12, 0.06] }}
+        transition={{ duration: 11, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+        style={{
+          position: 'absolute', bottom: -80, right: -100,
+          width: 340, height: 340, borderRadius: '50%',
+          background: '#22C55E', filter: 'blur(100px)', pointerEvents: 'none',
         }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: 1,
-        }}
-        className="absolute bottom-0 -right-40 w-96 h-96 bg-cyan-500 rounded-full blur-[120px]"
       />
 
-      {/* Signup Card */}
+      {/* Card */}
       <motion.div
-        initial={{ y: 30, opacity: 0 }}
+        initial={{ y: 24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="glass-card rounded-3xl p-8 md:p-12 w-full max-w-md relative z-10"
+        transition={{ duration: 0.45 }}
+        className="glass-card"
+        style={{
+          borderRadius: 20,
+          padding: '40px',
+          width: '100%',
+          maxWidth: 460,
+          position: 'relative',
+          zIndex: 1,
+        }}
       >
-        {/* Back Button */}
+        {/* Back */}
         <button
           onClick={() => navigate('/')}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-8"
+          style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            fontSize: 13, fontWeight: 500, color: 'var(--muted-foreground)',
+            background: 'none', border: 'none', cursor: 'pointer',
+            marginBottom: 28, padding: 0, transition: 'color 0.2s',
+          }}
+          onMouseEnter={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.color = 'var(--primary)')
+          }
+          onMouseLeave={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.color = 'var(--muted-foreground)')
+          }
         >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back</span>
+          <ArrowLeft style={{ width: 15, height: 15 }} />
+          Back
         </button>
 
         {/* Logo */}
-        <div className="flex items-center gap-3 mb-8">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 flex items-center justify-center">
-            <span className="font-bold text-white text-xl">GT</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
+          <div
+            style={{
+              width: 40, height: 40, borderRadius: 11,
+              background: 'var(--primary)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}
+          >
+            <Leaf style={{ width: 20, height: 20, color: '#FFFFFF' }} />
           </div>
-          <span className="font-bold text-2xl gradient-text">GlobalTrade</span>
+          <span style={{ fontWeight: 800, fontSize: 20, color: 'var(--foreground)', letterSpacing: '-0.3px' }}>
+            GlobalTrade
+          </span>
         </div>
 
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Create Account</h1>
-          <p className="text-gray-400">Join the global trade community</p>
+        {/* Heading */}
+        <div style={{ marginBottom: 24 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 800, color: 'var(--foreground)', marginBottom: 4, letterSpacing: '-0.02em' }}>
+            Create Account
+          </h1>
+          <p style={{ fontSize: 14, color: 'var(--muted-foreground)', margin: 0 }}>
+            Join the global trade community
+          </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Name */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+          {/* Full Name */}
           <div>
-            <label className="block text-sm mb-2 text-gray-300">Full Name</label>
-            <div className="relative group">
-              <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 
-                             group-focus-within:text-purple-400 transition-colors" />
-              <input
-                type="text"
-                value={formData.name}
-                onChange={(e) => handleChange('name', e.target.value)}
-                placeholder="John Doe"
-                required
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white 
-                         placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-2 
-                         focus:ring-purple-500/20 focus:shadow-[0_0_20px_rgba(127,90,240,0.3)] 
-                         transition-all duration-300"
-              />
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--foreground)', marginBottom: 6 }}>
+              Full Name
+            </label>
+            <div style={{ position: 'relative' }}>
+              <User style={iconStyle} />
+              <input type="text" value={formData.name} onChange={(e) => handleChange('name', e.target.value)}
+                placeholder="John Doe" required className="theme-input" style={fieldInput} />
             </div>
           </div>
 
           {/* Company */}
           <div>
-            <label className="block text-sm mb-2 text-gray-300">Company Name</label>
-            <div className="relative group">
-              <Building className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 
-                                 group-focus-within:text-purple-400 transition-colors" />
-              <input
-                type="text"
-                value={formData.company}
-                onChange={(e) => handleChange('company', e.target.value)}
-                placeholder="Your Company Ltd."
-                required
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white 
-                         placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-2 
-                         focus:ring-purple-500/20 focus:shadow-[0_0_20px_rgba(127,90,240,0.3)] 
-                         transition-all duration-300"
-              />
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--foreground)', marginBottom: 6 }}>
+              Company Name
+            </label>
+            <div style={{ position: 'relative' }}>
+              <Building style={iconStyle} />
+              <input type="text" value={formData.company} onChange={(e) => handleChange('company', e.target.value)}
+                placeholder="Your Company Ltd." required className="theme-input" style={fieldInput} />
             </div>
           </div>
 
           {/* Email */}
           <div>
-            <label className="block text-sm mb-2 text-gray-300">Email Address</label>
-            <div className="relative group">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 
-                             group-focus-within:text-purple-400 transition-colors" />
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleChange('email', e.target.value)}
-                placeholder="you@example.com"
-                required
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white 
-                         placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-2 
-                         focus:ring-purple-500/20 focus:shadow-[0_0_20px_rgba(127,90,240,0.3)] 
-                         transition-all duration-300"
-              />
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--foreground)', marginBottom: 6 }}>
+              Email Address
+            </label>
+            <div style={{ position: 'relative' }}>
+              <Mail style={iconStyle} />
+              <input type="email" value={formData.email} onChange={(e) => handleChange('email', e.target.value)}
+                placeholder="you@example.com" required className="theme-input" style={fieldInput} />
             </div>
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-sm mb-2 text-gray-300">Password</label>
-            <div className="relative group">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 
-                            group-focus-within:text-purple-400 transition-colors" />
-              <input
-                type="password"
-                value={formData.password}
-                onChange={(e) => handleChange('password', e.target.value)}
-                placeholder="••••••••"
-                required
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white 
-                         placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-2 
-                         focus:ring-purple-500/20 focus:shadow-[0_0_20px_rgba(127,90,240,0.3)] 
-                         transition-all duration-300"
-              />
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--foreground)', marginBottom: 6 }}>
+              Password
+            </label>
+            <div style={{ position: 'relative' }}>
+              <Lock style={iconStyle} />
+              <input type="password" value={formData.password} onChange={(e) => handleChange('password', e.target.value)}
+                placeholder="••••••••" required className="theme-input" style={fieldInput} />
             </div>
           </div>
 
           {/* Confirm Password */}
           <div>
-            <label className="block text-sm mb-2 text-gray-300">Confirm Password</label>
-            <div className="relative group">
-              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 
-                            group-focus-within:text-purple-400 transition-colors" />
-              <input
-                type="password"
-                value={formData.confirmPassword}
-                onChange={(e) => handleChange('confirmPassword', e.target.value)}
-                placeholder="••••••••"
-                required
-                className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white 
-                         placeholder-gray-500 focus:outline-none focus:border-purple-500/50 focus:ring-2 
-                         focus:ring-purple-500/20 focus:shadow-[0_0_20px_rgba(127,90,240,0.3)] 
-                         transition-all duration-300"
-              />
+            <label style={{ display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--foreground)', marginBottom: 6 }}>
+              Confirm Password
+            </label>
+            <div style={{ position: 'relative' }}>
+              <Lock style={iconStyle} />
+              <input type="password" value={formData.confirmPassword} onChange={(e) => handleChange('confirmPassword', e.target.value)}
+                placeholder="••••••••" required className="theme-input" style={fieldInput} />
             </div>
           </div>
 
           {/* Terms */}
-          <div className="flex items-start gap-3">
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
             <input
               type="checkbox"
               id="terms"
               required
-              className="mt-1 w-4 h-4 rounded border-white/30 bg-white/5 accent-purple-500"
+              style={{ width: 16, height: 16, marginTop: 2, accentColor: 'var(--primary)', cursor: 'pointer', flexShrink: 0 }}
             />
-            <label htmlFor="terms" className="text-sm text-gray-400">
+            <label htmlFor="terms" style={{ fontSize: 13, color: 'var(--muted-foreground)', lineHeight: 1.55 }}>
               I agree to the{' '}
-              <button type="button" className="text-purple-400 hover:text-purple-300 transition-colors">
+              <button type="button" style={{ fontSize: 13, fontWeight: 600, color: 'var(--primary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
                 Terms of Service
-              </button>{' '}
-              and{' '}
-              <button type="button" className="text-purple-400 hover:text-purple-300 transition-colors">
+              </button>
+              {' '}and{' '}
+              <button type="button" style={{ fontSize: 13, fontWeight: 600, color: 'var(--primary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
                 Privacy Policy
               </button>
             </label>
           </div>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full py-4 rounded-xl bg-gradient-to-r from-purple-500 via-blue-500 to-cyan-500 
-                     hover:shadow-[0_0_40px_rgba(127,90,240,0.6)] transition-all duration-300 
-                     font-semibold text-lg relative overflow-hidden group"
+            className="btn-primary"
+            style={{ width: '100%', padding: '13px 16px', fontSize: 15, borderRadius: 12, marginTop: 4 }}
           >
-            <span className="relative z-10">Create Account</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 
-                          opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            Create Account
           </motion.button>
         </form>
 
-        {/* Login Link */}
-        <div className="mt-8 text-center">
-          <p className="text-gray-400">
+        {/* Login link */}
+        <div style={{ marginTop: 20, textAlign: 'center' }}>
+          <p style={{ fontSize: 14, color: 'var(--muted-foreground)' }}>
             Already have an account?{' '}
             <button
               onClick={() => navigate('/login')}
-              className="text-purple-400 hover:text-purple-300 font-semibold transition-colors"
+              style={{ fontSize: 14, fontWeight: 600, color: 'var(--primary)', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
             >
               Sign in
             </button>

@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Filter, X } from 'lucide-react';
+import { SlidersHorizontal, X, ChevronDown } from 'lucide-react';
 import { countries, allProducts, allMarkets } from '../data/companies';
 import { useState } from 'react';
 
@@ -24,112 +24,158 @@ export function FilterSidebar({
 }: FilterSidebarProps) {
   const [expandedSection, setExpandedSection] = useState<string | null>('country');
 
-  const toggleCountry = (country: string) => {
-    if (selectedCountries.includes(country)) {
-      onCountryChange(selectedCountries.filter(c => c !== country));
-    } else {
-      onCountryChange([...selectedCountries, country]);
-    }
-  };
+  const toggleCountry = (c: string) =>
+    onCountryChange(
+      selectedCountries.includes(c)
+        ? selectedCountries.filter((x) => x !== c)
+        : [...selectedCountries, c]
+    );
+  const toggleProduct = (p: string) =>
+    onProductChange(
+      selectedProducts.includes(p)
+        ? selectedProducts.filter((x) => x !== p)
+        : [...selectedProducts, p]
+    );
+  const toggleMarket = (m: string) =>
+    onMarketChange(
+      selectedMarkets.includes(m)
+        ? selectedMarkets.filter((x) => x !== m)
+        : [...selectedMarkets, m]
+    );
 
-  const toggleProduct = (product: string) => {
-    if (selectedProducts.includes(product)) {
-      onProductChange(selectedProducts.filter(p => p !== product));
-    } else {
-      onProductChange([...selectedProducts, product]);
-    }
-  };
-
-  const toggleMarket = (market: string) => {
-    if (selectedMarkets.includes(market)) {
-      onMarketChange(selectedMarkets.filter(m => m !== market));
-    } else {
-      onMarketChange([...selectedMarkets, market]);
-    }
-  };
-
-  const hasActiveFilters = selectedCountries.length > 0 || selectedProducts.length > 0 || selectedMarkets.length > 0;
+  const totalActive =
+    selectedCountries.length + selectedProducts.length + selectedMarkets.length;
 
   return (
     <motion.div
-      initial={{ x: -50, opacity: 0 }}
+      initial={{ x: -30, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      className="glass-card rounded-3xl p-6 h-fit sticky top-24"
+      transition={{ duration: 0.4, delay: 0.1 }}
+      className="glass-card"
+      style={{ borderRadius: 16, padding: 20, position: 'sticky', top: 80 }}
     >
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-cyan-500 flex items-center justify-center">
-            <Filter className="w-5 h-5 text-white" />
+      {/* ── Header ── */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: 18,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div
+            style={{
+              width: 34,
+              height: 34,
+              borderRadius: 9,
+              background: 'var(--primary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <SlidersHorizontal style={{ width: 16, height: 16, color: '#FFF' }} />
           </div>
-          <h2 className="text-xl font-bold">Filters</h2>
+          <div>
+            <h2
+              style={{
+                fontWeight: 700,
+                fontSize: 15,
+                color: 'var(--foreground)',
+                margin: 0,
+              }}
+            >
+              Filters
+            </h2>
+            {totalActive > 0 && (
+              <p style={{ fontSize: 12, color: 'var(--muted-foreground)', margin: 0 }}>
+                {totalActive} active
+              </p>
+            )}
+          </div>
         </div>
-        {hasActiveFilters && (
+
+        {totalActive > 0 && (
           <button
             onClick={onClearAll}
-            className="text-sm text-gray-400 hover:text-white flex items-center gap-1 transition-colors"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+              fontSize: 12,
+              fontWeight: 500,
+              color: 'var(--danger-text)',
+              background: 'var(--danger-bg)',
+              border: '1px solid var(--danger-border)',
+              borderRadius: 7,
+              padding: '4px 10px',
+              cursor: 'pointer',
+            }}
           >
-            <X className="w-4 h-4" />
-            Clear
+            <X style={{ width: 12, height: 12 }} />
+            Clear all
           </button>
         )}
       </div>
 
-      {/* Filter Sections */}
-      <div className="space-y-4">
-        {/* Country Filter */}
+      {/* ── Sections ── */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         <FilterSection
           title="Country"
           count={selectedCountries.length}
           expanded={expandedSection === 'country'}
-          onToggle={() => setExpandedSection(expandedSection === 'country' ? null : 'country')}
+          onToggle={() =>
+            setExpandedSection(expandedSection === 'country' ? null : 'country')
+          }
         >
-          <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
-            {countries.map((country) => (
+          <div className="custom-scrollbar" style={{ maxHeight: 220, overflowY: 'auto' }}>
+            {countries.map((c) => (
               <FilterCheckbox
-                key={country}
-                label={country}
-                checked={selectedCountries.includes(country)}
-                onChange={() => toggleCountry(country)}
+                key={c}
+                label={c}
+                checked={selectedCountries.includes(c)}
+                onChange={() => toggleCountry(c)}
               />
             ))}
           </div>
         </FilterSection>
 
-        {/* Product Filter */}
         <FilterSection
           title="Products"
           count={selectedProducts.length}
           expanded={expandedSection === 'products'}
-          onToggle={() => setExpandedSection(expandedSection === 'products' ? null : 'products')}
+          onToggle={() =>
+            setExpandedSection(expandedSection === 'products' ? null : 'products')
+          }
         >
-          <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
-            {allProducts.map((product) => (
+          <div className="custom-scrollbar" style={{ maxHeight: 220, overflowY: 'auto' }}>
+            {allProducts.map((p) => (
               <FilterCheckbox
-                key={product}
-                label={product}
-                checked={selectedProducts.includes(product)}
-                onChange={() => toggleProduct(product)}
+                key={p}
+                label={p}
+                checked={selectedProducts.includes(p)}
+                onChange={() => toggleProduct(p)}
               />
             ))}
           </div>
         </FilterSection>
 
-        {/* Export Markets Filter */}
         <FilterSection
           title="Export Markets"
           count={selectedMarkets.length}
           expanded={expandedSection === 'markets'}
-          onToggle={() => setExpandedSection(expandedSection === 'markets' ? null : 'markets')}
+          onToggle={() =>
+            setExpandedSection(expandedSection === 'markets' ? null : 'markets')
+          }
         >
-          <div className="space-y-2 max-h-60 overflow-y-auto custom-scrollbar">
-            {allMarkets.map((market) => (
+          <div className="custom-scrollbar" style={{ maxHeight: 220, overflowY: 'auto' }}>
+            {allMarkets.map((m) => (
               <FilterCheckbox
-                key={market}
-                label={market}
-                checked={selectedMarkets.includes(market)}
-                onChange={() => toggleMarket(market)}
+                key={m}
+                label={m}
+                checked={selectedMarkets.includes(m)}
+                onChange={() => toggleMarket(m)}
               />
             ))}
           </div>
@@ -139,6 +185,7 @@ export function FilterSidebar({
   );
 }
 
+/* ── FilterSection ── */
 function FilterSection({
   title,
   count,
@@ -153,43 +200,69 @@ function FilterSection({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border-b border-white/10 pb-4 last:border-b-0">
+    <div
+      style={{
+        borderRadius: 10,
+        border: '1px solid var(--border)',
+        overflow: 'hidden',
+      }}
+    >
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between mb-3 hover:text-purple-400 transition-colors"
+        style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '10px 14px',
+          background: expanded ? 'var(--muted)' : 'transparent',
+          border: 'none',
+          cursor: 'pointer',
+          transition: 'background 0.15s',
+          color: 'var(--foreground)',
+        }}
+        onMouseEnter={(e) => {
+          if (!expanded)
+            (e.currentTarget as HTMLButtonElement).style.background = 'var(--muted)';
+        }}
+        onMouseLeave={(e) => {
+          if (!expanded)
+            (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+        }}
       >
-        <span className="font-semibold">
-          {title}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontWeight: 600, fontSize: 13, color: 'var(--foreground)' }}>
+            {title}
+          </span>
           {count > 0 && (
-            <span className="ml-2 px-2 py-0.5 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 text-xs">
+            <span className="badge-primary" style={{ fontSize: 11 }}>
               {count}
             </span>
           )}
-        </span>
+        </div>
         <motion.div
           animate={{ rotate: expanded ? 180 : 0 }}
           transition={{ duration: 0.2 }}
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
+          <ChevronDown
+            style={{ width: 14, height: 14, color: 'var(--muted-foreground)' }}
+          />
         </motion.div>
       </button>
+
       <motion.div
         initial={false}
-        animate={{
-          height: expanded ? 'auto' : 0,
-          opacity: expanded ? 1 : 0,
-        }}
+        animate={{ height: expanded ? 'auto' : 0, opacity: expanded ? 1 : 0 }}
         transition={{ duration: 0.2 }}
-        className="overflow-hidden"
+        style={{ overflow: 'hidden' }}
       >
-        {children}
+        <div style={{ padding: '8px 14px 12px' }}>{children}</div>
       </motion.div>
     </div>
   );
 }
 
+/* ── FilterCheckbox ── */
 function FilterCheckbox({
   label,
   checked,
@@ -200,29 +273,54 @@ function FilterCheckbox({
   onChange: () => void;
 }) {
   return (
-    <label className="flex items-center gap-3 cursor-pointer group">
-      <div className="relative">
-        <input
-          type="checkbox"
-          checked={checked}
-          onChange={onChange}
-          className="sr-only"
-        />
-        <div
-          className={`w-5 h-5 rounded border-2 transition-all duration-200 ${
-            checked
-              ? 'bg-gradient-to-br from-purple-500 to-cyan-500 border-transparent'
-              : 'border-white/30 group-hover:border-purple-500/50'
-          }`}
-        >
-          {checked && (
-            <svg className="w-full h-full text-white p-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-            </svg>
-          )}
-        </div>
+    <label
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        padding: '5px 0',
+        cursor: 'pointer',
+      }}
+    >
+      <input type="checkbox" checked={checked} onChange={onChange} style={{ display: 'none' }} />
+      {/* Custom box */}
+      <div
+        style={{
+          width: 17,
+          height: 17,
+          borderRadius: 5,
+          border: checked ? 'none' : '2px solid var(--border)',
+          background: checked ? 'var(--primary)' : 'var(--card)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
+          transition: 'background 0.15s, border 0.15s',
+        }}
+      >
+        {checked && (
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth="3.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        )}
       </div>
-      <span className={`text-sm transition-colors ${checked ? 'text-white' : 'text-gray-400 group-hover:text-white'}`}>
+      <span
+        style={{
+          fontSize: 13,
+          color: checked ? 'var(--foreground)' : 'var(--muted-foreground)',
+          fontWeight: checked ? 500 : 400,
+          transition: 'color 0.15s',
+        }}
+      >
         {label}
       </span>
     </label>
